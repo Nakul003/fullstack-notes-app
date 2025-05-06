@@ -19,7 +19,7 @@ const NotePage = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const handleKeyDown = (e) => {
-    if (e.key === " " && inputTag.trim() !== "") {
+    if ((e.key === " " || e.key === "Spacebar") && inputTag.trim() !== ""){
       e.preventDefault();
       const newTag = inputTag.trim();
       if (!tags.includes(newTag)) {
