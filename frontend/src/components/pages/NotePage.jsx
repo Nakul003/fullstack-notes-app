@@ -35,7 +35,6 @@ const NotePage = () => {
     const newTag = tag.trim();
     if (newTag && !tags.includes(newTag)) {
       setTags([...tags, newTag]);
-      toast.success(`Tag "${newTag}" added`);
     }
     setInputTag('');
   };
@@ -51,9 +50,8 @@ const NotePage = () => {
     const value = e.target.value;
     setInputTag(value);
 
-    // Check if the last character is a space
     if (value.match(/\s+$/) && value.trim() !== '') {
-      const tag = value.replace(/\s+$/, '').trim(); // Remove trailing spaces
+      const tag = value.replace(/\s+$/, '').trim();
       if (tag) {
         addTag(tag);
       }
@@ -119,7 +117,7 @@ const NotePage = () => {
         transition={{ duration: 0.8, ease: 'easeOut', delay: 0.25 }}
         className="flex flex-col overflow-y-auto mb-4"
       >
-        <div className="flex justify-between p-4">
+        <div className="flex justify-between p-4 sm:p-4">
           <Link
             to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}
             className="flex items-center gap-2"
@@ -127,7 +125,7 @@ const NotePage = () => {
             <ChevronLeft className="w-6 h-6 text-base-content/60" />
             Go Back
           </Link>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
             <button
               disabled={!title || tags.length === 0 || !content}
               className={`flex ${title && tags.length !== 0 && content ? '' : 'text-base-content/40'}`}
@@ -166,7 +164,7 @@ const NotePage = () => {
             <Link to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}>
               <button
                 disabled={!title || tags.length === 0 || !content || isNoteSaved || isNoteUpdated}
-                className={`font-semibold ${
+                className={`font-semibold text-sm sm:text-base ${
                   title && tags.length !== 0 && content ? '' : 'text-base-content/40'
                 } ${isNoteSaved || isNoteUpdated ? 'animate-pulse' : ''}`}
                 onClick={() => {
@@ -185,7 +183,7 @@ const NotePage = () => {
           <input
             type="text"
             value={title}
-            className="border-[2px] cursor-pointer border-transparent w-full hover:border-base-content focus:border-base-content outline-none bg-transparent font-bold text-3xl rounded-lg py-2 px-4"
+            className="border-[2px] cursor-pointer border-transparent w-full hover:border-base-content focus:border-base-content outline-none bg-transparent font-bold text-2xl sm:text-3xl rounded-lg py-2 px-4"
             placeholder="Enter title..."
             onChange={(e) => {
               setTitle(e.target.value);
@@ -193,13 +191,13 @@ const NotePage = () => {
           />
 
           <div className="px-4 flex flex-col gap-4">
-            <label htmlFor="tag" className="flex group gap-24 items-center">
+            <label htmlFor="tag" className="flex flex-col sm:flex-row sm:group sm:gap-24 sm:items-center">
               <div className="flex gap-2">
                 <Tag className="w-6 h-6 cursor-pointer" />
                 <span className="cursor-pointer">Tags</span>
               </div>
 
-              <div className="w-full max-w-md p-4">
+              <div className="w-full max-w-md p-4 sm:p-4">
                 <div className="flex flex-wrap gap-2 cursor-pointer p-2 py-1 border-[2px] border-transparent hover:border-base-content group-focus-within:border-base-content rounded min-h-[42px]">
                   {tags.map((tag, index) => (
                     <span
@@ -227,7 +225,7 @@ const NotePage = () => {
                 </div>
               </div>
             </label>
-            <div className="flex gap-16 items-center">
+            <div className="flex flex-col sm:flex-row sm:gap-16 sm:items-center">
               <div className="flex gap-2">
                 <Timer className="w-6 h-6" />
                 <span>Last edited</span>
@@ -239,7 +237,7 @@ const NotePage = () => {
             cols={5}
             rows={5}
             value={content}
-            className="mt-4 rounded-lg cursor-pointer py-2 px-4 font-bold text-3xl focus:border-base-content bg-transparent border-[2px] border-transparent hover:border-base-content outline-none"
+            className="mt-4 rounded-lg cursor-pointer py-2 px-4 font-bold text-2xl sm:text-3xl focus:border-base-content bg-transparent border-[2px] border-transparent hover:border-base-content outline-none"
             placeholder="Type your note..."
             onChange={(e) => {
               setContent(e.target.value);
@@ -250,14 +248,14 @@ const NotePage = () => {
 
       {showDeleteModal && (
         <dialog id="delete_modal" className="modal modal-open">
-          <div className="modal-box">
+          <div className="modal-box w-11/12 max-w-md sm:max-w-lg">
             <h3 className="font-bold text-lg">Are you sure you want to delete this note?</h3>
             <p className="py-4">This action cannot be undone.</p>
             <div className="modal-action">
               <form method="dialog" className="flex gap-4">
                 <Link to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}>
                   <button
-                    className="btn btn-error text-white"
+                    className="btn btn-error text-white text-sm sm:text-base"
                     onClick={() => {
                       toast.success('Note deleted');
                       setShowDeleteModal(false);
@@ -269,7 +267,7 @@ const NotePage = () => {
                   </button>
                 </Link>
                 <button
-                  className="btn bg-slate-600/40"
+                  className="btn bg-slate-600/40 text-sm sm:text-base"
                   onClick={() => setShowDeleteModal(false)}
                 >
                   Cancel
