@@ -50,8 +50,9 @@ const NotePage = () => {
     const value = e.target.value;
     setInputTag(value);
 
+    // Check if the last character is a space
     if (value.match(/\s+$/) && value.trim() !== '') {
-      const tag = value.replace(/\s+$/, '').trim();
+      const tag = value.replace(/\s+$/, '').trim(); // Remove trailing spaces
       if (tag) {
         addTag(tag);
       }
@@ -109,7 +110,7 @@ const NotePage = () => {
   }, [currentNote]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-between">
+    <div className="min-h-screen flex flex-col justify-between ">
       <NavbarV1 />
       <motion.div
         initial={{ y: 50, opacity: 0 }}
@@ -117,7 +118,7 @@ const NotePage = () => {
         transition={{ duration: 0.8, ease: 'easeOut', delay: 0.25 }}
         className="flex flex-col overflow-y-auto mb-4"
       >
-        <div className="flex justify-between p-4 sm:p-4">
+        <div className="flex justify-between p-4 ">
           <Link
             to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}
             className="flex items-center gap-2"
@@ -125,7 +126,7 @@ const NotePage = () => {
             <ChevronLeft className="w-6 h-6 text-base-content/60" />
             Go Back
           </Link>
-          <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+          <div className="flex items-center gap-6">
             <button
               disabled={!title || tags.length === 0 || !content}
               className={`flex ${title && tags.length !== 0 && content ? '' : 'text-base-content/40'}`}
@@ -164,7 +165,7 @@ const NotePage = () => {
             <Link to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}>
               <button
                 disabled={!title || tags.length === 0 || !content || isNoteSaved || isNoteUpdated}
-                className={`font-semibold text-sm sm:text-base ${
+                className={`font-semibold ${
                   title && tags.length !== 0 && content ? '' : 'text-base-content/40'
                 } ${isNoteSaved || isNoteUpdated ? 'animate-pulse' : ''}`}
                 onClick={() => {
@@ -183,7 +184,7 @@ const NotePage = () => {
           <input
             type="text"
             value={title}
-            className="border-[2px] cursor-pointer border-transparent w-full hover:border-base-content focus:border-base-content outline-none bg-transparent font-bold text-2xl sm:text-3xl rounded-lg py-2 px-4"
+            className="border-[2px] cursor-pointer border-transparent w-full hover:border-base-content focus:border-base-content outline-none bg-transparent font-bold text-3xl rounded-lg py-2 px-4"
             placeholder="Enter title..."
             onChange={(e) => {
               setTitle(e.target.value);
@@ -191,13 +192,13 @@ const NotePage = () => {
           />
 
           <div className="px-4 flex flex-col gap-4">
-            <label htmlFor="tag" className="flex flex-col sm:flex-row sm:group sm:gap-24 sm:items-center">
-              <div className="flex gap-2">
-                <Tag className="w-6 h-6 cursor-pointer" />
+            <label htmlFor="tag" className="flex group gap-6 sm:gap-24 items-center">
+              <div className="flex gap-2 items-center">
+                <Tag className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer" />
                 <span className="cursor-pointer">Tags</span>
               </div>
 
-              <div className="w-full max-w-md p-4 sm:p-4">
+              <div className="w-full max-w-md p-4">
                 <div className="flex flex-wrap gap-2 cursor-pointer p-2 py-1 border-[2px] border-transparent hover:border-base-content group-focus-within:border-base-content rounded min-h-[42px]">
                   {tags.map((tag, index) => (
                     <span
@@ -219,25 +220,25 @@ const NotePage = () => {
                     value={inputTag}
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    className="flex-1 bg-transparent cursor-pointer min-w-[100px] border-none focus:outline-none"
+                    className="flex-1 bg-transparent cursor-pointer w-full border-none focus:outline-none"
                     placeholder="Type and press space"
                   />
                 </div>
               </div>
             </label>
-            <div className="flex flex-col sm:flex-row sm:gap-16 sm:items-center">
-              <div className="flex gap-2">
-                <Timer className="w-6 h-6" />
-                <span>Last edited</span>
+            <div className="flex gap-8 sm:gap-16 items-center">
+              <div className="flex gap-2 items-center">
+                <Timer className="w-5 h-5 sm:w-6 sm:h-6" />
+                <span className='text-sm'>Last edited</span>
               </div>
-              <span>{currentNote?.updatedAt?.split('T')[0] || 'Not saved yet'}</span>
+              <span className='text-sm'>{currentNote?.updatedAt?.split('T')[0] || 'Not saved yet'}</span>
             </div>
           </div>
           <textarea
             cols={5}
             rows={5}
             value={content}
-            className="mt-4 rounded-lg cursor-pointer py-2 px-4 font-bold text-2xl sm:text-3xl focus:border-base-content bg-transparent border-[2px] border-transparent hover:border-base-content outline-none"
+            className="mt-4 rounded-lg cursor-pointer py-2 px-4 font-bold text-3xl focus:border-base-content bg-transparent border-[2px] border-transparent hover:border-base-content outline-none"
             placeholder="Type your note..."
             onChange={(e) => {
               setContent(e.target.value);
@@ -248,14 +249,14 @@ const NotePage = () => {
 
       {showDeleteModal && (
         <dialog id="delete_modal" className="modal modal-open">
-          <div className="modal-box w-11/12 max-w-md sm:max-w-lg">
+          <div className="modal-box">
             <h3 className="font-bold text-lg">Are you sure you want to delete this note?</h3>
             <p className="py-4">This action cannot be undone.</p>
             <div className="modal-action">
               <form method="dialog" className="flex gap-4">
                 <Link to={!currentNote || currentNote?.archived === false ? '/' : '/archived'}>
                   <button
-                    className="btn btn-error text-white text-sm sm:text-base"
+                    className="btn btn-error text-white"
                     onClick={() => {
                       toast.success('Note deleted');
                       setShowDeleteModal(false);
@@ -267,7 +268,7 @@ const NotePage = () => {
                   </button>
                 </Link>
                 <button
-                  className="btn bg-slate-600/40 text-sm sm:text-base"
+                  className="btn bg-slate-600/40"
                   onClick={() => setShowDeleteModal(false)}
                 >
                   Cancel
